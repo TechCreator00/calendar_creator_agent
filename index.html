@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Get Your SH*T Together</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fefefe;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #222;
+      color: #fff;
+      padding: 2em;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    header p {
+      margin-top: 0.5em;
+      font-size: 1.1em;
+      font-style: italic;
+      color: #aaa;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 2em auto;
+      padding: 2em;
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 1em;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 1em;
+      resize: vertical;
+    }
+
+    button {
+      background: #00b894;
+      color: white;
+      padding: 0.8em 1.5em;
+      font-size: 1em;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background: #019875;
+    }
+
+    #result {
+      margin-top: 2em;
+    }
+
+    #result a {
+      display: block;
+      margin: 0.5em 0;
+      color: #0984e3;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .json-output {
+      background: #f7f7f7;
+      padding: 1em;
+      border-radius: 6px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      margin-top: 1em;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2em;
+      font-size: 0.9em;
+      color: #aaa;
+    }
+
+    .spreadsheet {
+      margin-top: 3em;
+    }
+
+    .funny-note {
+      margin-top: 1em;
+      font-style: italic;
+      color: #555;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🧠 Get Your SH*T Together</h1>
+    <p>Paste your messy text. We'll turn it into a real-life adult event.</p>
+  </header>
+
+  <main>
+    <textarea id="inputText" placeholder="e.g. Catch up with James next Friday at 3pm at the café near the station..."></textarea>
+    <button onclick="generateLink()">✨ Generate Calendar Event</button>
+
+    <div id="result"></div>
+    <div class="funny-note">Yes, even that vague text you just copied from WhatsApp.</div>
+
+    <div class="spreadsheet">
+      <h3>📊 Previous Events (Community Archive)</h3>
+      <!-- Embed your published Google Sheet here -->
+      <iframe src="https://docs.google.com/spreadsheets/d/1ESPbLiZTJwqZgkpEDFnccSoP9-eTEXoqaRGipF-P5Dk/pubhtml?widget=true&amp;headers=false"
+              width="100%" height="400"></iframe>
+    </div>
+  </main>
+
+  <footer>
+    Made with mild panic and AI magic.
+  </footer>
+
+  <script>
+    async function generateLink() {
+      const textValue = document.getElementById("inputText").value.trim();
+      if (!textValue) {
+        document.getElementById("result").innerHTML = "<p>Please paste something first, legend.</p>";
+        return;
+      }
+
+      const apiUrl = "https://script.google.com/macros/s/AKfycby0IKam0oKeJ48BrVNCJ3tRbji0yqmbpKfD8giAa3OywkhyH7-uP6GuoBbq155ThJ55/exec?text=" + encodeURIComponent(textValue);
+
+      document.getElementById("result").innerHTML = "<p>⏳ Thinking really hard...</p>";
+
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        let textFormatted = "";
+        if (data.text) {
+          textFormatted = `<div class="json-output">${JSON.stringify(data.text, null, 2)}</div>`;
+        }
+
+        document.getElementById("result").innerHTML = `
+          <a href="${data.parsed}" target="_blank">📥 Download .ICS File</a>
+          <a href="${data.calendarUrl}" target="_blank">📅 Add to Google Calendar</a>
+          ${textFormatted}
+        `;
+      } catch (error) {
+        console.error(error);
+        document.getElementById("result").innerHTML = "<p>💥 Something broke. Try again later.</p>";
+      }
+    }
+  </script>
+</body>
+</html>

@@ -179,7 +179,7 @@
         return;
       }
 
-      const apiUrl = "https://script.google.com/macros/s/AKfycby3Ks0S9f_AIRV3DYIaD1aJB3bOc4XoBekI-Rox-4n_4wQpFhj6LVEhBD-K1eyCP4AL/exec?text=" + encodeURIComponent(textValue);
+      const apiUrl = "https://script.google.com/macros/s/AKfycbwy_Vg4O68QjL45WL5rA0YS9pqneM-VUFW09-7HE8caPn2vTmjAOyyKM4cyHqPs_xFF/exec?text=" + encodeURIComponent(textValue);
 
       resultDiv.innerHTML = `
         <p>⏳ Thinking really hard...</p>
@@ -201,7 +201,7 @@
         if (data.parsed) {
           document.getElementById("result").innerHTML = `
             <a href="${data.parsed}" target="_blank">📥 Use this link if using mobile phone - Download .ICS File</a>
-            <a href="${data.calendarUrl}" target="_blank">📅 sAdd to Google Calendar</a>
+            <a href="${data.calendarUrl}" target="_blank">📅 save to Google Calendar</a>
             ${textFormatted}
           `;
         }
